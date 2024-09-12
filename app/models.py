@@ -23,7 +23,13 @@ class Blog(Base):
     s_description = Column(String, nullable=False)
     l_description = Column(String, nullable=False)
     created_date = Column(TIMESTAMP(timezone=True), nullable=False, server_default=('now()'))
+    number_of_likes = Column(Integer, nullable=True)
 
     owner_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
 
     owner = relationship("User", back_populates="blog")
+
+class Vote(Base): 
+    __tablename__ = "votes"
+    user_id = Column(Integer, ForeignKey('user.id', ondelete="CASCADE"), primary_key=True)
+    post_id = Column(Integer, ForeignKey('blog.id', ondelete="CASCADE"), primary_key=True)
